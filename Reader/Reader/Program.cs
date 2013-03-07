@@ -92,6 +92,7 @@ namespace Reader
                 rxString += ((char)tmpByte);
                 tmpByte = (byte)port.ReadByte();
             }
+            port.ReadByte(); //Dump last new line byte
 
             return rxString;
         }
