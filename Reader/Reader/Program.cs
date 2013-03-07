@@ -61,16 +61,7 @@ namespace Reader
             var port = (SerialPort) o;
             while (true)
             {
-                var indata = "";
-                try
-                {
-                    indata = ReadLine(port);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Exiting Now!");
-                    break;
-                }
+                var indata = ReadLine(port);
                 var indata2 = ReadLine(port);
                 var indata3 = ReadLine(port);
 
@@ -88,7 +79,6 @@ namespace Reader
                 esCon.AppendToStreamAsync("balanceevents", ExpectedVersion.Any,
                                           new EventData(Guid.NewGuid(), "BalanceRead", true, bytes, new byte[] {}));
             }
-            Console.WriteLine("Thread Exiting!");
         }
 
         private static string ReadLine(SerialPort port)
