@@ -28,8 +28,8 @@ namespace Reader
             Console.WriteLine("Press any key to continue...");
             Console.WriteLine();
             Console.ReadKey();
-            readerThread.Abort();
             port.Close();
+            readerThread.Abort();
         }
 
         private static void DataReceivedHandler(
@@ -66,10 +66,9 @@ namespace Reader
                 {
                     indata = ReadLine(port);
                 }
-                catch (ThreadAbortException e)
+                catch (Exception e)
                 {
                     Console.WriteLine("Exiting Now!");
-                    Thread.ResetAbort();
                     break;
                 }
                 var indata2 = ReadLine(port);
