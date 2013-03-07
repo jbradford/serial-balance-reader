@@ -61,9 +61,19 @@ namespace Reader
             var port = (SerialPort) o;
             while (true)
             {
-                string indata = ReadLine(port);
-                string indata2 = ReadLine(port);
-                string indata3 = ReadLine(port);
+                var indata = "";
+                try
+                {
+                    indata = ReadLine(port);
+                }
+                catch (ThreadAbortException e)
+                {
+                    Console.WriteLine("Exiting Now!");
+                    Thread.ResetAbort();
+                    break;
+                }
+                var indata2 = ReadLine(port);
+                var indata3 = ReadLine(port);
 
                 var readEvent = new BalanceRead();
                 readEvent.BalanceId = indata.Split(':')[1].Trim();
@@ -79,6 +89,7 @@ namespace Reader
                 esCon.AppendToStreamAsync("balanceevents", ExpectedVersion.Any,
                                           new EventData(Guid.NewGuid(), "BalanceRead", true, bytes, new byte[] {}));
             }
+            Console.WriteLine("Thread Exiting!");
         }
 
         private static string ReadLine(SerialPort port)
